@@ -1006,10 +1006,41 @@ function ProjectModal({
     client: string;
     year: string;
     services: string[];
+    image?: string;
   } | null; 
   isOpen: boolean; 
   onClose: () => void;
 }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const modalContentRef = useRef<HTMLDivElement>(null);
+
+  // Gallery images
+  const galleryImages = [
+    "/gallery/1.jpg",
+    "/gallery/2.jpg", 
+    "/gallery/3.jpg",
+    "/gallery/4.jpg",
+    "/gallery/5.jpg"
+  ];
+
+  // Scroll animation for images
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isOpen, galleryImages.length]);
+
+  // Reset scroll position when modal opens
+  useEffect(() => {
+    if (isOpen && modalContentRef.current) {
+      modalContentRef.current.scrollTop = 0;
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -1029,52 +1060,106 @@ function ProjectModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0A0A0A]/90 backdrop-blur-sm"
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0A0A0A]/95 backdrop-blur-sm"
         onClick={onClose}
       >
         <motion.div
+          ref={modalContentRef}
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white"
+          className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white scroll-smooth"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-[#0A0A0A] text-white hover:bg-[#FFD000] hover:text-[#0A0A0A] transition-colors"
+            className="fixed top-4 right-4 sm:top-6 sm:right-6 z-20 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-[#0A0A0A] text-white hover:bg-[#FFD000] hover:text-[#0A0A0A] transition-colors"
             aria-label="Close modal"
           >
             <X size={20} />
           </button>
 
-          {/* Project Image Placeholder */}
-          <div className="h-48 sm:h-64 md:h-80 bg-gradient-to-br from-[#FFD000] via-[#E6B800] to-[#FFD000] flex items-center justify-center">
-            <span className="text-6xl sm:text-8xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A]/20">
-              {project.title.charAt(0)}
-            </span>
+          {/* Gallery Section with Scroll Animation */}
+          <div className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden">
+            {galleryImages.map((img, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ 
+                  opacity: currentImageIndex === index ? 1 : 0,
+                  x: currentImageIndex === index ? 0 : -100,
+                  scale: currentImageIndex === index ? 1 : 1.1
+                }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                className="absolute inset-0"
+                style={{ zIndex: currentImageIndex === index ? 10 : 1 }}
+              >
+                <img
+                  src={img}
+                  alt={`Gallery ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />
+              </motion.div>
+            ))}
+            
+            {/* Image Indicators */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              {galleryImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentImageIndex(index);
+                  }}
+                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all ${
+                    currentImageIndex === index 
+                      ? "bg-[#FFD000] w-6 sm:w-8" 
+                      : "bg-white/50 hover:bg-white"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Category Badge on Image */}
+            <div className="absolute top-4 left-4 z-20">
+              <span className="bg-[#FFD000] text-[#0A0A0A] px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-[family-name:var(--font-syne)] font-bold">
+                {project.category}
+              </span>
+            </div>
           </div>
 
           {/* Project Content */}
           <div className="p-6 sm:p-8 md:p-10">
-            {/* Category Badge */}
-            <span className="inline-block bg-[#FFD000] text-[#0A0A0A] px-3 py-1 text-xs sm:text-sm font-[family-name:var(--font-syne)] font-bold mb-4">
-              {project.category}
-            </span>
-
             {/* Title */}
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A] mb-4">
+            <motion.h3 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-3xl sm:text-4xl md:text-5xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A] mb-4"
+            >
               {project.title}
-            </h3>
+            </motion.h3>
 
             {/* Description */}
-            <p className="text-sm sm:text-base md:text-lg text-[#888888] font-[family-name:var(--font-dm-sans)] leading-relaxed mb-6">
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-sm sm:text-base md:text-lg text-[#888888] font-[family-name:var(--font-dm-sans)] leading-relaxed mb-6"
+            >
               {project.description}
-            </p>
+            </motion.p>
 
             {/* Project Details */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 border-y-2 border-[#0A0A0A]/10 py-6"
+            >
               <div>
                 <p className="text-xs text-[#888888] font-[family-name:var(--font-dm-sans)] uppercase tracking-wider mb-1">
                   Client
@@ -1099,10 +1184,51 @@ function ProjectModal({
                   {project.services.join(", ")}
                 </p>
               </div>
-            </div>
+            </motion.div>
+
+            {/* Scrollable Gallery Thumbnails */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mb-6 sm:mb-8"
+            >
+              <p className="text-xs text-[#888888] font-[family-name:var(--font-dm-sans)] uppercase tracking-wider mb-3">
+                Project Gallery
+              </p>
+              <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                {galleryImages.map((img, index) => (
+                  <motion.button
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentImageIndex(index);
+                    }}
+                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border-2 transition-all ${
+                      currentImageIndex === index 
+                        ? "border-[#FFD000]" 
+                        : "border-[#0A0A0A]/20 hover:border-[#0A0A0A]/50"
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
 
             {/* CTA */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4"
+            >
               <a
                 href="#contact"
                 onClick={onClose}
@@ -1117,7 +1243,7 @@ function ProjectModal({
               >
                 Close
               </button>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </motion.div>
