@@ -1034,6 +1034,17 @@ function ProjectModal({
     setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
+  // Auto-scroll combined with manual navigation
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const interval = setInterval(() => {
+      nextImage();
+    }, 4000); // Auto-scroll every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isOpen]);
+
   // Reset scroll position when modal opens
   useEffect(() => {
     if (isOpen && modalContentRef.current) {
@@ -1082,7 +1093,7 @@ function ProjectModal({
             <X size={20} />
           </button>
 
-          {/* Gallery Section with Custom Scroll Navigation */}
+          {/* Gallery Section with Auto + Custom Scroll Navigation */}
           <div className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden">
             {/* Images with Slide Animation */}
             <div 
@@ -1155,6 +1166,42 @@ function ProjectModal({
 
           {/* Project Content */}
           <div className="p-6 sm:p-8 md:p-10">
+            {/* Project Gallery Thumbnails - MOVED TO TOP */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-6 sm:mb-8"
+            >
+              <p className="text-xs text-[#888888] font-[family-name:var(--font-dm-sans)] uppercase tracking-wider mb-3">
+                Project Gallery
+              </p>
+              <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                {galleryImages.map((img, index) => (
+                  <motion.button
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentImageIndex(index);
+                    }}
+                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border-2 transition-all ${
+                      currentImageIndex === index 
+                        ? "border-[#FFD000]" 
+                        : "border-[#0A0A0A]/20 hover:border-[#0A0A0A]/50"
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+
             {/* Title */}
             <motion.h3 
               initial={{ opacity: 0, y: 20 }}
@@ -1208,47 +1255,11 @@ function ProjectModal({
               </div>
             </motion.div>
 
-            {/* Scrollable Gallery Thumbnails */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mb-6 sm:mb-8"
-            >
-              <p className="text-xs text-[#888888] font-[family-name:var(--font-dm-sans)] uppercase tracking-wider mb-3">
-                Project Gallery
-              </p>
-              <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                {galleryImages.map((img, index) => (
-                  <motion.button
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentImageIndex(index);
-                    }}
-                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border-2 transition-all ${
-                      currentImageIndex === index 
-                        ? "border-[#FFD000]" 
-                        : "border-[#0A0A0A]/20 hover:border-[#0A0A0A]/50"
-                    }`}
-                  >
-                    <img
-                      src={img}
-                      alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-
             {/* CTA */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-3 sm:gap-4"
             >
               <a
