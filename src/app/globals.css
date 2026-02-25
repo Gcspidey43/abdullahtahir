@@ -150,22 +150,24 @@ html {
   width: 20px;
   height: 20px;
   background: #FFD000;
+  border: 2px solid #0A0A0A;
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
   transition: transform 0.15s ease-out, opacity 0.15s ease-out;
   transform: translate(-50%, -50%);
 }
 
 .custom-cursor.hovering {
   transform: translate(-50%, -50%) scale(2);
+  background: #0A0A0A;
+  border-color: #FFD000;
 }
 
 .custom-cursor.on-dark {
-  mix-blend-mode: normal;
-  background: #FFFFFF;
+  background: #FFD000;
+  border-color: #FFFFFF;
 }
 
 /* Marquee Animation */

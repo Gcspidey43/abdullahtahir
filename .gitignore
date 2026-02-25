@@ -49,3 +49,9 @@ prompt
 server.log
 # Skills directory
 /skills/
+# uploaded files
+upload/
+
+# dev logs
+dev.log
+server.log
