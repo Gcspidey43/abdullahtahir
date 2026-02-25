@@ -1375,7 +1375,10 @@ function WorksSection() {
       description: "A comprehensive series of Ramadan greeting designs for social media and print. Each piece combines traditional Islamic geometric patterns with modern design aesthetics, creating visually stunning content for the holy month.",
       client: "Islamic Center",
       year: "2024",
-      services: ["Social Media", "Print Design", "Branding"]
+      services: ["Social Media", "Print Design", "Branding"],
+      gallery: [
+        "/ramadan-gallery/1.jpg"
+      ]
     },
     { 
       title: "Engagement Announcement", 
