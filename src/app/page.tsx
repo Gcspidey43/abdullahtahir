@@ -217,12 +217,26 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
       
       {/* Name Container */}
       <div className="relative flex flex-col items-center mb-12 sm:mb-14 md:mb-16 overflow-hidden gap-1 sm:gap-2 md:gap-3">
+        {/* Logo Icon */}
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ delay: 0.1, duration: 0.6, type: "spring" }}
+          className="mb-2 sm:mb-4"
+        >
+          <img 
+            src="/logo.png" 
+            alt="Logo" 
+            className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain"
+          />
+        </motion.div>
+        
         {/* Abdullah. */}
         <motion.div
           initial={{ x: '-100vw', opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ 
-            delay: 0.1, 
+            delay: 0.2, 
             duration: 0.8, 
             ease: [0.25, 0.46, 0.45, 0.94],
             type: "spring",
@@ -236,7 +250,7 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ delay: 0.6, duration: 0.3 }}
+            transition={{ delay: 0.7, duration: 0.3 }}
             className="absolute -bottom-1 left-0 w-full h-0.5 sm:h-1 bg-[#FFD000] origin-left"
           />
         </motion.div>
@@ -529,9 +543,16 @@ function Navigation() {
             {/* Logo */}
             <a
               href="#"
-              className="text-2xl sm:text-3xl md:text-4xl font-[family-name:var(--font-bebas-neue)] text-[#FFD000] hover:text-[#E6B800] transition-colors"
+              className="flex items-center gap-2 sm:gap-3 group"
             >
-              Abdullah.
+              <img 
+                src="/logo.png" 
+                alt="Abdullah Tahir Logo" 
+                className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain transition-transform group-hover:scale-110"
+              />
+              <span className="text-2xl sm:text-3xl md:text-4xl font-[family-name:var(--font-bebas-neue)] text-[#FFD000] group-hover:text-[#E6B800] transition-colors">
+                Abdullah.
+              </span>
             </a>
 
             {/* Desktop Navigation */}
@@ -594,9 +615,16 @@ function Navigation() {
           >
             <div className="min-h-screen flex flex-col p-4 sm:p-6">
               <div className="flex justify-between items-center">
-                <span className="text-2xl sm:text-3xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A]">
-                  Abdullah.
-                </span>
+                <a href="#" className="flex items-center gap-2">
+                  <img 
+                    src="/logo.png" 
+                    alt="Abdullah Tahir Logo" 
+                    className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
+                  />
+                  <span className="text-2xl sm:text-3xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A]">
+                    Abdullah.
+                  </span>
+                </a>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-[#0A0A0A] p-2 -mr-2"
@@ -1693,9 +1721,16 @@ function Footer() {
           {/* Logo */}
           <a
             href="#"
-            className="text-xl sm:text-2xl font-[family-name:var(--font-bebas-neue)] text-[#FFD000] hover:text-[#E6B800] transition-colors"
+            className="flex items-center gap-2 group"
           >
-            Abdullah.
+            <img 
+              src="/logo.png" 
+              alt="Abdullah Tahir Logo" 
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain transition-transform group-hover:scale-110"
+            />
+            <span className="text-xl sm:text-2xl font-[family-name:var(--font-bebas-neue)] text-[#FFD000] group-hover:text-[#E6B800] transition-colors">
+              Abdullah.
+            </span>
           </a>
 
           {/* Copyright */}

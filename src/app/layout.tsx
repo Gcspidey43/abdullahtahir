@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Abdullah Tahir" }],
   creator: "Abdullah Tahir",
   icons: {
-    icon: "/logo.svg",
+    icon: "/favicon.png",
   },
   openGraph: {
     type: "website",
