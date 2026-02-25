@@ -1013,6 +1013,7 @@ function ProjectModal({
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const modalContentRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   // Gallery images
   const galleryImages = [
@@ -1023,21 +1024,21 @@ function ProjectModal({
     "/gallery/5.jpg"
   ];
 
-  // Scroll animation for images
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
-    }, 3000);
+  // Custom scroll to next image
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
+  };
 
-    return () => clearInterval(interval);
-  }, [isOpen, galleryImages.length]);
+  // Custom scroll to previous image
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
 
   // Reset scroll position when modal opens
   useEffect(() => {
     if (isOpen && modalContentRef.current) {
       modalContentRef.current.scrollTop = 0;
+      setCurrentImageIndex(0);
     }
   }, [isOpen]);
 
@@ -1081,30 +1082,51 @@ function ProjectModal({
             <X size={20} />
           </button>
 
-          {/* Gallery Section with Scroll Animation */}
+          {/* Gallery Section with Custom Scroll Navigation */}
           <div className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden">
-            {galleryImages.map((img, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ 
-                  opacity: currentImageIndex === index ? 1 : 0,
-                  x: currentImageIndex === index ? 0 : -100,
-                  scale: currentImageIndex === index ? 1 : 1.1
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-0"
-                style={{ zIndex: currentImageIndex === index ? 10 : 1 }}
-              >
-                <img
-                  src={img}
-                  alt={`Gallery ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />
-              </motion.div>
-            ))}
+            {/* Images with Slide Animation */}
+            <div 
+              ref={galleryRef}
+              className="flex h-full transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+            >
+              {galleryImages.map((img, index) => (
+                <div key={index} className="flex-shrink-0 w-full h-full relative">
+                  <img
+                    src={img}
+                    alt={`Gallery ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />
+                </div>
+              ))}
+            </div>
             
+            {/* Previous Button */}
+            <button
+              onClick={(e) => { e.stopPropagation(); prevImage(); }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-[#0A0A0A]/80 text-white hover:bg-[#FFD000] hover:text-[#0A0A0A] transition-all"
+              aria-label="Previous image"
+            >
+              <ChevronRight size={24} className="rotate-180" />
+            </button>
+
+            {/* Next Button */}
+            <button
+              onClick={(e) => { e.stopPropagation(); nextImage(); }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-[#0A0A0A]/80 text-white hover:bg-[#FFD000] hover:text-[#0A0A0A] transition-all"
+              aria-label="Next image"
+            >
+              <ChevronRight size={24} />
+            </button>
+
+            {/* Image Counter */}
+            <div className="absolute bottom-4 right-4 z-20 bg-[#0A0A0A]/80 px-3 py-1">
+              <span className="text-white font-[family-name:var(--font-syne)] text-sm">
+                {currentImageIndex + 1} / {galleryImages.length}
+              </span>
+            </div>
+
             {/* Image Indicators */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
               {galleryImages.map((_, index) => (
