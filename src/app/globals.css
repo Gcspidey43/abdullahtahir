@@ -1,0 +1,483 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-dm-sans);
+  --font-heading: var(--font-bebas-neue);
+  --font-subheading: var(--font-syne);
+  --font-mono: var(--font-syne);
+  
+  /* Portfolio Color Palette */
+  --color-yellow: #FFD000;
+  --color-yellow-dark: #E6B800;
+  --color-yellow-light: #FFF9D6;
+  --color-black: #0A0A0A;
+  --color-white: #FFFFFF;
+  --color-off-white: #F9F7F0;
+  --color-gray: #888888;
+  
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #FFFFFF;
+  --foreground: #0A0A0A;
+  --card: #FFFFFF;
+  --card-foreground: #0A0A0A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A0A0A;
+  --primary: #FFD000;
+  --primary-foreground: #0A0A0A;
+  --secondary: #F9F7F0;
+  --secondary-foreground: #0A0A0A;
+  --muted: #F9F7F0;
+  --muted-foreground: #888888;
+  --accent: #FFD000;
+  --accent-foreground: #0A0A0A;
+  --destructive: #FF4444;
+  --border: #0A0A0A;
+  --input: #0A0A0A;
+  --ring: #FFD000;
+  --chart-1: #FFD000;
+  --chart-2: #0A0A0A;
+  --chart-3: #F9F7F0;
+  --chart-4: #888888;
+  --chart-5: #E6B800;
+}
+
+.dark {
+  --background: #0A0A0A;
+  --foreground: #FFFFFF;
+  --card: #0A0A0A;
+  --card-foreground: #FFFFFF;
+  --popover: #0A0A0A;
+  --popover-foreground: #FFFFFF;
+  --primary: #FFD000;
+  --primary-foreground: #0A0A0A;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1A1A1A;
+  --muted-foreground: #888888;
+  --accent: #FFD000;
+  --accent-foreground: #0A0A0A;
+  --destructive: #FF4444;
+  --border: #FFFFFF;
+  --input: #FFFFFF;
+  --ring: #FFD000;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-dm-sans), sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-bebas-neue), sans-serif;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFD000;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E6B800;
+}
+
+/* Selection */
+::selection {
+  background: #FFD000;
+  color: #0A0A0A;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  background: #FFD000;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor.hovering {
+  transform: translate(-50%, -50%) scale(2);
+}
+
+.custom-cursor.on-dark {
+  mix-blend-mode: normal;
+  background: #FFFFFF;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse-yellow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 208, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 208, 0, 0);
+  }
+}
+
+.animate-pulse-yellow {
+  animation: pulse-yellow 2s ease-in-out infinite;
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+/* Stagger Animation for Hero Text */
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-item {
+  opacity: 0;
+  animation: staggerIn 0.6s ease-out forwards;
+}
+
+/* Service Card Flip */
+.service-card {
+  transition: all 0.4s ease;
+}
+
+.service-card:hover {
+  background: #FFD000;
+}
+
+.service-card:hover .card-number {
+  color: rgba(10, 10, 10, 0.15);
+}
+
+.service-card:hover .card-title,
+.service-card:hover .card-description,
+.service-card:hover .card-tag {
+  color: #0A0A0A;
+}
+
+/* Project Card Overlay */
+.project-card .overlay {
+  transition: all 0.4s ease;
+  transform: translateY(100%);
+}
+
+.project-card:hover .overlay {
+  transform: translateY(0);
+}
+
+/* Nav Link Underline Animation */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #FFD000;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Testimonial Card Tilt */
+.testimonial-card {
+  transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px) rotate(0deg) !important;
+}
+
+/* Button Hover Effects */
+.btn-primary {
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 208, 0, 0.3);
+}
+
+.btn-secondary {
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(10, 10, 10, 0.3);
+}
+
+/* Timeline Pulse */
+.timeline-dot.active {
+  animation: pulse-yellow 2s ease-in-out infinite;
+}
+
+/* Hide scrollbar for mobile menu */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile Menu Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobile-menu-open {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Text Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #FFD000 0%, #E6B800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Yellow Highlight Effect */
+.yellow-highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.yellow-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: #FFD000;
+  z-index: -1;
+  animation: highlightIn 0.6s ease-out forwards;
+}
+
+@keyframes highlightIn {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Mobile Cursor Fix - Hide on touch devices */
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
+/* Contact Form Input Styles */
+.contact-input {
+  width: 100%;
+  border: 2px solid #0A0A0A;
+  background: white;
+  color: #0A0A0A;
+  padding: 12px 16px;
+  font-family: var(--font-dm-sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.contact-input:focus {
+  border-color: #FFD000;
+}
+
+.contact-input::placeholder {
+  color: #888888;
+}
+
+/* Green Pulse Animation for WhatsApp Button */
+@keyframes pulse-green {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+  }
+}
+
+.whatsapp-btn {
+  animation: pulse-green 2.5s ease-in-out infinite;
+}
+
+.whatsapp-btn:hover {
+  animation: none;
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+}
+
+/* Filter Button Styles */
+.filter-btn {
+  padding: 8px 20px;
+  font-family: var(--font-syne);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border: 1px solid #0A0A0A;
+  background: transparent;
+  color: #0A0A0A;
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  background: #FFF9D6;
+}
+
+.filter-btn.active {
+  background: #FFD000;
+  border-color: #FFD000;
+  color: #0A0A0A;
+}
+
+/* Loading Screen Animations */
+@keyframes loading-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-loading-shimmer {
+  animation: loading-shimmer 1.5s linear infinite;
+}
+
+@keyframes stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 16px 0;
+  }
+}
