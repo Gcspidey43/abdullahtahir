@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Palette, 
@@ -1007,6 +1007,7 @@ function ProjectModal({
     year: string;
     services: string[];
     image?: string;
+    gallery?: string[];
   } | null; 
   isOpen: boolean; 
   onClose: () => void;
@@ -1015,14 +1016,17 @@ function ProjectModal({
   const modalContentRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
 
-  // Gallery images
-  const galleryImages = [
+  // Default gallery images (fallback)
+  const defaultGallery = [
     "/gallery/1.jpg",
     "/gallery/2.jpg", 
     "/gallery/3.jpg",
     "/gallery/4.jpg",
     "/gallery/5.jpg"
   ];
+
+  // Use project-specific gallery or fallback to default
+  const galleryImages = project?.gallery || defaultGallery;
 
   // Custom scroll to next image
   const nextImage = () => {
@@ -1049,7 +1053,6 @@ function ProjectModal({
   useEffect(() => {
     if (isOpen && modalContentRef.current) {
       modalContentRef.current.scrollTop = 0;
-      setCurrentImageIndex(0);
     }
   }, [isOpen]);
 
@@ -1069,21 +1072,73 @@ function ProjectModal({
   return (
     <AnimatePresence>
       <motion.div
+        key={project.title} // Reset state when project changes
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0A0A0A]/95 backdrop-blur-sm"
         onClick={onClose}
       >
-        <motion.div
-          ref={modalContentRef}
-          initial={{ scale: 0.9, opacity: 0, y: 20 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white scroll-smooth"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <ModalContent 
+          project={project} 
+          onClose={onClose} 
+          galleryImages={galleryImages}
+        />
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+// Separate component to reset state on each project change
+function ModalContent({ 
+  project, 
+  onClose, 
+  galleryImages 
+}: { 
+  project: NonNullable<Parameters<typeof ProjectModal>[0]['project']>;
+  onClose: () => void;
+  galleryImages: string[];
+}) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const modalContentRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+
+  // Custom scroll to next image
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
+  };
+
+  // Custom scroll to previous image
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  // Auto-scroll combined with manual navigation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextImage();
+    }, 4000); // Auto-scroll every 4 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  return (
+    <motion.div
+      ref={modalContentRef}
+      initial={{ scale: 0.9, opacity: 0, y: 20 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
+      exit={{ scale: 0.9, opacity: 0, y: 20 }}
+      transition={{ type: "spring", damping: 25, stiffness: 300 }}
+      className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white scroll-smooth"
+      onClick={(e) => e.stopPropagation()}
+    >
           {/* Close Button */}
           <button
             onClick={onClose}
@@ -1279,8 +1334,6 @@ function ProjectModal({
             </motion.div>
           </div>
         </motion.div>
-      </motion.div>
-    </AnimatePresence>
   );
 }
 
@@ -1304,7 +1357,15 @@ function WorksSection() {
       description: "A beautifully crafted wedding thank you card design that captures the essence of the couple's special day. Features elegant typography, custom illustrations, and a cohesive color palette that reflects the wedding theme.",
       client: "Ahmad & Sarah",
       year: "2024",
-      services: ["Print Design", "Illustration", "Typography"]
+      services: ["Print Design", "Illustration", "Typography"],
+      gallery: [
+        "/wedding-gallery/1.jpg",
+        "/wedding-gallery/2.jpg",
+        "/wedding-gallery/3.jpg",
+        "/wedding-gallery/4.jpg",
+        "/wedding-gallery/5.jpg",
+        "/wedding-gallery/6.jpg"
+      ]
     },
     { 
       title: "Ramadan Kareem Series", 
