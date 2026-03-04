@@ -858,32 +858,24 @@ function ServicesSection() {
       number: "01",
       icon: Palette,
       title: "Brand Visuals",
-      description:
-        "Wedding designs, Islamic art, event graphics, social media content, and complete brand identity — delivered fast and beautifully.",
       tag: "300+ Designs",
     },
     {
       number: "02",
       icon: Monitor,
       title: "Web Solutions",
-      description:
-        "Clean, professional websites built to represent your brand online and convert visitors into real customers.",
-      tag: "8 Websites Built",
+      tag: "8 Websites",
     },
     {
       number: "03",
       icon: Zap,
       title: "Digital Solutions",
-      description:
-        "AI-powered problem solving — documents, presentations, automation, and custom digital deliverables tailored to your needs.",
-      tag: "Fast Turnaround",
+      tag: "AI-Powered",
     },
     {
       number: "04",
       icon: Star,
       title: "Event & Wedding",
-      description:
-        "Baat Paaki, Mayon, Mehndi, Engagement, Bridal Shower — beautifully crafted event graphics for your special moments.",
       tag: "Pakistani Specialist",
     },
   ];
@@ -892,52 +884,48 @@ function ServicesSection() {
     <section
       id="services"
       ref={ref}
-      className="py-12 sm:py-16 md:py-20 lg:py-28 bg-[#F9F7F0]"
+      className="py-6 sm:py-8 bg-white"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-8 sm:mb-12 md:mb-16"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-6 sm:mb-8"
         >
           <span className="text-xs sm:text-sm font-[family-name:var(--font-syne)] text-[#888888] uppercase tracking-wider">
             — SERVICES
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A] mt-1 sm:mt-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A] mt-1">
             WHAT I DO BEST
           </h2>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
+        {/* Services - Circular Cards */}
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.number}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="service-card bg-white border-2 border-[#0A0A0A] p-5 sm:p-6 md:p-8 relative group cursor-pointer active:bg-[#FFD000] transition-colors"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isVisible ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="group flex flex-col items-center text-center cursor-pointer"
             >
-              {/* Background Number */}
-              <span className="card-number absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-[family-name:var(--font-bebas-neue)] text-[#F9F7F0] transition-colors">
-                {service.number}
-              </span>
-
-              {/* Content */}
-              <div className="relative z-10">
-                <service.icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[#FFD000] mb-3 sm:mb-4" />
-                <h3 className="card-title text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A] mb-2 sm:mb-3 transition-colors">
-                  {service.title}
-                </h3>
-                <p className="card-description text-sm sm:text-base text-[#888888] font-[family-name:var(--font-dm-sans)] mb-3 sm:mb-4 leading-relaxed transition-colors">
-                  {service.description}
-                </p>
-                <span className="card-tag inline-block bg-[#FFF9D6] text-[#0A0A0A] px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm font-[family-name:var(--font-syne)] font-bold transition-colors">
-                  {service.tag}
-                </span>
+              {/* Circular Icon Container */}
+              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-[#FFD000] border-2 border-[#0A0A0A] flex items-center justify-center transition-all duration-300 group-hover:bg-[#0A0A0A] group-hover:border-[#FFD000] shadow-[4px_4px_0px_0px_rgba(10,10,10,1)] group-hover:shadow-[6px_6px_0px_0px_rgba(255,208,0,1)] group-hover:scale-105">
+                <service.icon className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-[#0A0A0A] group-hover:text-[#FFD000] transition-colors" />
               </div>
+              
+              {/* Title */}
+              <h3 className="mt-3 text-base sm:text-lg md:text-xl font-[family-name:var(--font-bebas-neue)] text-[#0A0A0A]">
+                {service.title}
+              </h3>
+              
+              {/* Tag */}
+              <span className="text-xs text-[#888888] font-[family-name:var(--font-dm-sans)]">
+                {service.tag}
+              </span>
             </motion.div>
           ))}
         </div>
@@ -1104,6 +1092,9 @@ function ModalContent({
   const modalContentRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
 
+  // Check if this is a website project
+  const isWebsiteProject = project.isWebsite;
+
   // Custom scroll to next image
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
@@ -1127,16 +1118,16 @@ function ModalContent({
     }
   };
 
-  // Auto-scroll combined with manual navigation
+  // Auto-scroll combined with manual navigation (only for non-website projects)
   useEffect(() => {
-    if (zoomLevel === 1) {
+    if (zoomLevel === 1 && !isWebsiteProject) {
       const interval = setInterval(() => {
         nextImage();
       }, 4000); // Auto-scroll every 4 seconds
 
       return () => clearInterval(interval);
     }
-  }, [zoomLevel]);
+  }, [zoomLevel, isWebsiteProject]);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -1164,24 +1155,56 @@ function ModalContent({
             <X size={20} />
           </button>
 
-          {/* Gallery Section with Auto + Custom Scroll Navigation */}
-          <div className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden bg-[#F9F7F0]">
-            {/* Images with Slide Animation */}
-            <div 
-              ref={galleryRef}
-              className="flex h-full transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
-            >
-              {galleryImages.map((img, index) => (
-                <div key={index} className="flex-shrink-0 w-full h-full relative flex items-center justify-center p-4">
-                  <img
-                    src={img}
-                    alt={`Gallery ${index + 1}`}
-                    className="max-w-full max-h-full object-contain transition-transform duration-300 cursor-zoom-in"
-                    style={{ transform: `scale(${currentImageIndex === index ? zoomLevel : 1})` }}
-                    onClick={() => currentImageIndex === index && toggleZoom()}
-                  />
-                </div>
+          {/* Website Preview Section OR Gallery Section */}
+          {isWebsiteProject ? (
+            <div className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden bg-[#0A0A0A]">
+              {/* Live Website Preview */}
+              <iframe
+                src={project.websiteUrl}
+                className="w-full h-full border-0"
+                title={`${project.title} Website Preview`}
+                sandbox="allow-scripts allow-same-origin"
+              />
+              
+              {/* Overlay with Website Info */}
+              <div className="absolute top-4 left-4 z-10">
+                <span className="bg-[#FFD000] text-[#0A0A0A] px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-[family-name:var(--font-syne)] font-bold">
+                  {project.category}
+                </span>
+              </div>
+              
+              {/* Visit Website Button */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
+                <a
+                  href={project.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-[family-name:var(--font-syne)] font-bold hover:bg-white transition-all"
+                >
+                  <Globe size={18} />
+                  Visit Website
+                  <ExternalLink size={16} />
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden bg-[#F9F7F0]">
+              {/* Images with Slide Animation */}
+              <div 
+                ref={galleryRef}
+                className="flex h-full transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+              >
+                {galleryImages.map((img, index) => (
+                  <div key={index} className="flex-shrink-0 w-full h-full relative flex items-center justify-center p-4">
+                    <img
+                      src={img}
+                      alt={`Gallery ${index + 1}`}
+                      className="max-w-full max-h-full object-contain transition-transform duration-300 cursor-zoom-in"
+                      style={{ transform: `scale(${currentImageIndex === index ? zoomLevel : 1})` }}
+                      onClick={() => currentImageIndex === index && toggleZoom()}
+                    />
+                  </div>
               ))}
             </div>
             
@@ -1264,44 +1287,68 @@ function ModalContent({
               </span>
             </div>
           </div>
+          )}
 
           {/* Project Content */}
           <div className="p-6 sm:p-8 md:p-10">
-            {/* Project Gallery Thumbnails - MOVED TO TOP */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="mb-6 sm:mb-8"
-            >
-              <p className="text-xs text-[#888888] font-[family-name:var(--font-dm-sans)] uppercase tracking-wider mb-3">
-                Project Gallery
-              </p>
-              <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                {galleryImages.map((img, index) => (
-                  <motion.button
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentImageIndex(index);
-                    }}
-                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border-2 transition-all ${
-                      currentImageIndex === index 
-                        ? "border-[#FFD000]" 
-                        : "border-[#0A0A0A]/20 hover:border-[#0A0A0A]/50"
-                    }`}
-                  >
-                    <img
-                      src={img}
-                      alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
+            {/* Project Gallery Thumbnails - Only for non-website projects */}
+            {!isWebsiteProject && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="mb-6 sm:mb-8"
+              >
+                <p className="text-xs text-[#888888] font-[family-name:var(--font-dm-sans)] uppercase tracking-wider mb-3">
+                  Project Gallery
+                </p>
+                <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                  {galleryImages.map((img, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentImageIndex(index);
+                      }}
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border-2 transition-all ${
+                        currentImageIndex === index 
+                          ? "border-[#FFD000]" 
+                          : "border-[#0A0A0A]/20 hover:border-[#0A0A0A]/50"
+                      }`}
+                    >
+                      <img
+                        src={img}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Website Link - Only for website projects */}
+            {isWebsiteProject && project.websiteUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="mb-6 sm:mb-8"
+              >
+                <a
+                  href={project.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-[family-name:var(--font-syne)] font-bold hover:bg-[#0A0A0A] hover:text-[#FFD000] transition-all"
+                >
+                  <Globe size={20} />
+                  {project.websiteUrl.replace('https://', '')}
+                  <ExternalLink size={16} />
+                </a>
+              </motion.div>
+            )}
 
             {/* Title */}
             <motion.h3 
@@ -1396,22 +1443,68 @@ function WorksSection() {
 
   const projects = [
     { 
-      title: "Business Website", 
+      title: "Dreamy Candles", 
       category: "Web Services", 
-      image: "/projects/business-website.png",
-      description: "A modern, responsive business website designed to convert visitors into customers. Features clean UI/UX, optimized performance, and seamless integration with business tools for maximum efficiency.",
-      client: "TechStart Inc.",
-      year: "2024",
-      services: ["Web Design", "Development", "UI/UX"]
+      image: "/website-previews/dreamycandles.png",
+      websiteUrl: "https://dreamycandles.pk",
+      description: "A beautiful e-commerce website for a premium candle brand. Features elegant product showcases, smooth shopping experience, and responsive design.",
+      client: "Dreamy Candles",
+      year: "2025",
+      services: ["Web Design", "Development", "E-commerce"],
+      isWebsite: true
+    },
+    { 
+      title: "StudyWise", 
+      category: "Web Services", 
+      image: "/website-previews/studywise.png",
+      websiteUrl: "https://studywise.pk",
+      description: "An educational platform website with modern design, course listings, and student portal functionality.",
+      client: "StudyWise",
+      year: "2025",
+      services: ["Web Design", "Development", "UI/UX"],
+      isWebsite: true
+    },
+    { 
+      title: "Zaytoud", 
+      category: "Web Services", 
+      image: "/website-previews/zaytoud.png",
+      websiteUrl: "https://zaytoud.pk",
+      description: "A modern business website with clean aesthetics, showcasing products and services with intuitive navigation.",
+      client: "Zaytoud",
+      year: "2025",
+      services: ["Web Design", "Development", "SEO"],
+      isWebsite: true
+    },
+    { 
+      title: "Unique Visa Consultancy", 
+      category: "Web Services", 
+      image: "/website-previews/uniquevisa.png",
+      websiteUrl: "https://uniquevisa.pk",
+      description: "A professional consultancy website featuring service information, contact forms, and client testimonials.",
+      client: "Unique Visa Consultancy",
+      year: "2025",
+      services: ["Web Design", "Development", "UI/UX"],
+      isWebsite: true
     },
     { 
       title: "Brand Identity Package", 
       category: "Brand Identity", 
-      image: "/projects/brand-identity.png",
+      image: "/brand-identity-gallery/1.jpg",
       description: "A complete brand identity package including logo design, color palette, typography system, and brand guidelines. Created a cohesive visual identity that communicates the brand's values and resonates with its target audience.",
-      client: "Urban Cafe",
-      year: "2024",
-      services: ["Logo Design", "Branding", "Guidelines"]
+      client: "Dreamy Candles",
+      year: "2025",
+      services: ["Logo Design", "Branding", "Guidelines"],
+      gallery: [
+        "/brand-identity-gallery/1.jpg",
+        "/brand-identity-gallery/2.jpg",
+        "/brand-identity-gallery/3.jpg",
+        "/brand-identity-gallery/4.jpg",
+        "/brand-identity-gallery/5.jpg",
+        "/brand-identity-gallery/6.jpg",
+        "/brand-identity-gallery/7.jpg",
+        "/brand-identity-gallery/8.jpg",
+        "/brand-identity-gallery/9.jpg"
+      ]
     },
     { 
       title: "Wedding Card Collection", 
@@ -1435,8 +1528,8 @@ function WorksSection() {
       category: "Social Media Designs", 
       image: "/ramadan-gallery/1.jpg",
       description: "A comprehensive series of Ramadan greeting designs for social media and print. Each piece combines traditional Islamic geometric patterns with modern design aesthetics, creating visually stunning content for the holy month.",
-      client: "Islamic Center",
-      year: "2024",
+      client: "Dreamy Candles",
+      year: "2025",
       services: ["Social Media", "Print Design", "Branding"],
       gallery: [
         "/ramadan-gallery/1.jpg",
@@ -1453,8 +1546,8 @@ function WorksSection() {
       category: "Social Media Designs", 
       image: "/engagement-gallery/1.jpg",
       description: "An elegant engagement announcement design featuring sophisticated layouts and premium color combinations. The design balances traditional elements with contemporary styling for a memorable first impression.",
-      client: "Bilal Family",
-      year: "2024",
+      client: "Dreamy Candles",
+      year: "2025",
       services: ["Print Design", "Digital Design"],
       gallery: [
         "/engagement-gallery/1.jpg",
@@ -1472,8 +1565,8 @@ function WorksSection() {
       category: "Social Media Designs", 
       image: "/bridal-gallery/1.jpg",
       description: "A whimsical and romantic bridal shower invitation that sets the perfect tone for the celebration. Features hand-drawn elements, soft color palettes, and elegant typography that captures the joy of the occasion.",
-      client: "Fatima Khan",
-      year: "2024",
+      client: "Dreamy Candles",
+      year: "2025",
       services: ["Illustration", "Print Design"],
       gallery: [
         "/bridal-gallery/1.jpg",
@@ -1567,7 +1660,7 @@ function WorksSection() {
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     
                     {/* Category Badge */}
@@ -1575,10 +1668,20 @@ function WorksSection() {
                       {project.category}
                     </div>
                     
+                    {/* Website URL Badge - Only for website projects */}
+                    {project.isWebsite && (
+                      <div className="absolute bottom-3 left-3 right-3 bg-[#0A0A0A]/80 px-3 py-2 flex items-center gap-2">
+                        <Globe size={14} className="text-[#FFD000]" />
+                        <span className="text-[#FFD000] text-xs font-[family-name:var(--font-syne)] font-bold truncate">
+                          {project.websiteUrl?.replace('https://', '')}
+                        </span>
+                      </div>
+                    )}
+                    
                     {/* Hover Overlay */}
                     <div className="absolute inset-0 bg-[#FFD000]/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span className="font-[family-name:var(--font-syne)] font-bold flex items-center gap-2 text-sm text-[#0A0A0A] border-2 border-[#0A0A0A] px-4 py-2 bg-white">
-                        View Project <ExternalLink size={16} />
+                        {project.isWebsite ? 'Visit Website' : 'View Project'} <ExternalLink size={16} />
                       </span>
                     </div>
                   </div>
@@ -1634,21 +1737,21 @@ function TestimonialsSection() {
   const testimonials = [
     {
       quote:
-        "Abdullah delivered our wedding designs beautifully and on time. Highly recommend!",
-      name: "Ahmad R.",
-      role: "Small Business Owner",
+        "Apky designs Bohat achy aur clear hoty hain really love these",
+      name: "Dreamy Candles",
+      role: "Brand Client",
+    },
+    {
+      quote:
+        "Bohat hi Kmaaal ki Website bani hai Meri expectation se b achi. Highly Recommended",
+      name: "Unique Visa Consultancy",
+      role: "Website Client",
     },
     {
       quote:
         "The Ramadan series he made for us went viral on Instagram. Amazing work!",
       name: "Sara K.",
-      role: "Wedding Client",
-    },
-    {
-      quote:
-        "Fast, professional, and creative. Our website looks exactly how we imagined.",
-      name: "Bilal M.",
-      role: "Startup Founder",
+      role: "Social Media Client",
     },
   ];
 
